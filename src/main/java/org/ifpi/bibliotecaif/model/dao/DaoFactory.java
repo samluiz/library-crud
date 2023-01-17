@@ -11,11 +11,11 @@ import java.sql.SQLException;
  */
 public class DaoFactory {
 
-    public static LivroLiterarioDao criarLivroLiterarioDao() throws SQLException, IOException {
-        return new LivroLiterarioDaoImpl(DbConnectionFactory.conectar());
+    public static LiteraryBookDao createLiteraryBookDao() throws SQLException, IOException {
+        return new LiteraryBookDaoImpl(DbConnectionFactory.connect());
     }
 
-    public static LivroDidaticoDao criarLivroDidaticoDao() throws SQLException, IOException {
-        return new LivroDidaticoDaoImpl(DbConnectionFactory.conectar());
+    public static DidacticBookDao createDidacticBookDao() throws SQLException, IOException {
+        return new DidacticBookDaoImpl(DbConnectionFactory.connect());
     }
 }

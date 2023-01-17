@@ -10,14 +10,10 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import org.ifpi.bibliotecaif.model.entities.Livro;
-import org.ifpi.bibliotecaif.model.entities.LivroDidatico;
-import org.ifpi.bibliotecaif.model.entities.LivroLiterario;
-import org.ifpi.bibliotecaif.model.entities.enums.Assunto;
-import org.ifpi.bibliotecaif.model.entities.enums.ClassificacaoIndicativa;
-import org.ifpi.bibliotecaif.model.entities.enums.Genero;
-import org.ifpi.bibliotecaif.model.services.LivroDidaticoService;
-import org.ifpi.bibliotecaif.model.services.LivroLiterarioService;
+import org.ifpi.bibliotecaif.model.entities.Book;
+import org.ifpi.bibliotecaif.model.entities.DidacticBook;
+import org.ifpi.bibliotecaif.model.entities.enums.Subject;
+import org.ifpi.bibliotecaif.model.services.DidacticBookService;
 import org.ifpi.bibliotecaif.utils.Alerts;
 
 import java.io.IOException;
@@ -25,30 +21,30 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-public class ListarLivrosDidaticosController implements Initializable {
+public class ListDidacticBooksController implements Initializable {
 
     @FXML
-    private TableView<Livro> tableViewLivro;
+    private TableView<Book> tableViewBook;
 
     @FXML
-    private TableColumn<LivroDidatico, String> tableColumnId;
+    private TableColumn<DidacticBook, String> tableColumnId;
     @FXML
-    private TableColumn<LivroDidatico, String> tableColumnTitulo;
+    private TableColumn<DidacticBook, String> tableColumnTitle;
     @FXML
-    private TableColumn<LivroDidatico, String> tableColumnAutor;
+    private TableColumn<DidacticBook, String> tableColumnAuthor;
     @FXML
-    private TableColumn<LivroDidatico, String> tableColumnEditora;
+    private TableColumn<DidacticBook, String> tableColumnPublisher;
     @FXML
-    private TableColumn<LivroDidatico, String> tableColumnIsbn;
+    private TableColumn<DidacticBook, String> tableColumnIsbn;
     @FXML
-    private TableColumn<LivroDidatico, Assunto> tableColumnAssunto;
+    private TableColumn<DidacticBook, Subject> tableColumnSubject;
 
     @FXML
     private Button mudarTipoButton;
 
     @FXML
     public void onMudarTipoButton() {
-        loadView("LivrosLiterariosLista.fxml");
+        loadView("ListLiteraryBook.fxml");
     }
 
     @Override
@@ -62,20 +58,20 @@ public class ListarLivrosDidaticosController implements Initializable {
 
     private void initializeNodes() throws SQLException {
 
-        LivroDidaticoService service = new LivroDidaticoService();
+        DidacticBookService service = new DidacticBookService();
 
-        ObservableList<Livro> lista = service.buscarTodos();
+        ObservableList<Book> list = service.findAll();
 
         tableColumnId.setCellValueFactory(new PropertyValueFactory<>("Id"));
-        tableColumnTitulo.setCellValueFactory(new PropertyValueFactory<>("Titulo"));
-        tableColumnAutor.setCellValueFactory(new PropertyValueFactory<>("Autor"));
-        tableColumnEditora.setCellValueFactory(new PropertyValueFactory<>("Editora"));
+        tableColumnTitle.setCellValueFactory(new PropertyValueFactory<>("Title"));
+        tableColumnAuthor.setCellValueFactory(new PropertyValueFactory<>("Author"));
+        tableColumnPublisher.setCellValueFactory(new PropertyValueFactory<>("Publisher"));
         tableColumnIsbn.setCellValueFactory(new PropertyValueFactory<>("Isbn"));
-        tableColumnAssunto.setCellValueFactory(new PropertyValueFactory<>("Assunto"));
+        tableColumnSubject.setCellValueFactory(new PropertyValueFactory<>("Subject"));
 
         Stage stage = (Stage) Main.getMainScene().getWindow();
-        tableViewLivro.prefHeightProperty().bind(stage.heightProperty());
-        tableViewLivro.setItems(lista);
+        tableViewBook.prefHeightProperty().bind(stage.heightProperty());
+        tableViewBook.setItems(list);
     }
 
     private synchronized void loadView(String absName) {

@@ -9,7 +9,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.VBox;
 import org.ifpi.bibliotecaif.utils.Alerts;
 
 import java.io.IOException;
@@ -19,34 +18,34 @@ import java.util.ResourceBundle;
 public class MainViewController implements Initializable {
 
     @FXML
-    private MenuItem menuItemAdicionar;
+    private MenuItem menuItemAdd;
 
     @FXML
-    private MenuItem menuItemEditar;
+    private MenuItem menuItemEdit;
 
     @FXML
-    private MenuItem menuItemVerTodos;
+    private MenuItem menuItemList;
 
     @FXML
-    private MenuItem menuItemSobre;
+    private MenuItem menuItemAbout;
     @FXML
-    public void onMenuItemAdicionar() {
-        loadView("AdicionarLivro.fxml");
+    public void onMenuItemAdd() {
+        loadView("AddBook.fxml");
     }
 
     @FXML
-    public void onMenuItemEditar() {
-        loadView("EditarLivro.fxml");
+    public void onMenuItemEdit() {
+        loadView("EditOrDeleteBook.fxml");
     }
 
     @FXML
-    public void onMenuItemVerTodos() {
-        loadView("LivrosLiterariosLista.fxml");
+    public void onMenuItemList() {
+        loadView("ListLiteraryBook.fxml");
     }
 
     @FXML
-    public void onMenuItemSobre() {
-        loadView("Sobre.fxml");
+    public void onMenuItemAbout() {
+        loadView("About.fxml");
     }
 
     @Override
@@ -66,7 +65,7 @@ public class MainViewController implements Initializable {
             mainPane.getChildren().add(mainMenu);
             mainPane.getChildren().addAll(newPane.getChildren());
         } catch (IOException e) {
-            Alerts.showAlert("IO Exception", "Erro ao carregar view", e.getMessage(), Alert.AlertType.ERROR);
+            Alerts.showAlert("IO Exception", "Erro ao carregar view", String.valueOf(e.getCause()), Alert.AlertType.ERROR);
         }
     }
 }

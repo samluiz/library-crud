@@ -24,7 +24,7 @@ public class Main extends Application {
             scrollPane.setFitToWidth(true);
             mainScene = new Scene(scrollPane);
             primaryStage.setScene(mainScene);
-            primaryStage.setTitle("Biblioteca IFPI");
+            primaryStage.setTitle("Biblioteca SAURS");
             primaryStage.setResizable(false);
             primaryStage.show();
         } catch (IOException e) {

@@ -3,30 +3,28 @@ package org.ifpi.bibliotecaif.model.dao;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.ifpi.bibliotecaif.factory.DbConnectionFactory;
-import org.ifpi.bibliotecaif.model.entities.Livro;
-import org.ifpi.bibliotecaif.model.entities.LivroLiterario;
-import org.ifpi.bibliotecaif.model.entities.enums.ClassificacaoIndicativa;
-import org.ifpi.bibliotecaif.model.entities.enums.Genero;
+import org.ifpi.bibliotecaif.model.entities.Book;
+import org.ifpi.bibliotecaif.model.entities.LiteraryBook;
+import org.ifpi.bibliotecaif.model.entities.enums.ParentalRating;
+import org.ifpi.bibliotecaif.model.entities.enums.Genre;
 
-import java.io.IOException;
 import java.sql.*;
-import java.util.List;
 
 /**
  * Implementação da interface DAO
  */
-public class LivroLiterarioDaoImpl implements LivroLiterarioDao {
+public class LiteraryBookDaoImpl implements LiteraryBookDao {
 
     private Connection connection;
 
     // Instanciando uma conexão com o banco de dados no construtor
-    public LivroLiterarioDaoImpl(Connection connection) {
+    public LiteraryBookDaoImpl(Connection connection) {
         this.connection = connection;
     }
 
     // Método que insere um livro literário no banco de dados.
     @Override
-    public void insert(LivroLiterario livro) throws SQLException {
+    public void insert(LiteraryBook book) throws SQLException {
         PreparedStatement stmt = null;
         try {
             stmt = connection.prepareStatement("INSERT INTO livros_literarios "
@@ -34,12 +32,12 @@ public class LivroLiterarioDaoImpl implements LivroLiterarioDao {
                     + "genero, classificacao_indicativa) "
                     + "VALUES "
                     + "(?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
-            stmt.setString(1, livro.getTitulo());
-            stmt.setString(2, livro.getAutor());
-            stmt.setString(3, livro.getEditora());
-            stmt.setString(4, livro.getIsbn());
-            stmt.setString(5, livro.getGenero().toString());
-            stmt.setString(6, livro.getClassificacaoIndicativa().toString());
+            stmt.setString(1, book.getTitle());
+            stmt.setString(2, book.getAuthor());
+            stmt.setString(3, book.getPublisher());
+            stmt.setString(4, book.getIsbn());
+            stmt.setString(5, book.getGenero().toString());
+            stmt.setString(6, book.getClassificacaoIndicativa().toString());
 
             int rowsAffected = stmt.executeUpdate();
 
@@ -47,14 +45,14 @@ public class LivroLiterarioDaoImpl implements LivroLiterarioDao {
                 ResultSet rs = stmt.getGeneratedKeys();
                 if (rs.next()) {
                     int id = rs.getInt(1);
-                    livro.setId(id);
+                    book.setId(id);
                 }
-                DbConnectionFactory.fecharResultSet(rs);
+                DbConnectionFactory.closeResultSet(rs);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            DbConnectionFactory.fecharStmt(stmt);
+            DbConnectionFactory.closeStatement(stmt);
 
         }
     }
@@ -62,7 +60,7 @@ public class LivroLiterarioDaoImpl implements LivroLiterarioDao {
 
     // Método que modifica um item do banco de dados baseado no id
     @Override
-    public void update(LivroLiterario livro) throws SQLException {
+    public void update(LiteraryBook book) throws SQLException {
         PreparedStatement stmt = null;
         try {
             stmt = connection.prepareStatement(
@@ -74,19 +72,19 @@ public class LivroLiterarioDaoImpl implements LivroLiterarioDao {
                             "genero = IFNULL(NULLIF(?, ''), genero), " +
                             "classificacao_indicativa = IFNULL(NULLIF(?, ''), classificacao_indicativa) " +
                             "WHERE id = ?");
-            stmt.setString(1, livro.getTitulo());
-            stmt.setString(2, livro.getAutor());
-            stmt.setString(3, livro.getEditora());
-            stmt.setString(4, livro.getIsbn());
-            stmt.setString(5, livro.getGenero() == null ? null : livro.getGenero().toString());
-            stmt.setString(6, livro.getClassificacaoIndicativa() == null ? null : livro.getClassificacaoIndicativa().toString());
-            stmt.setInt(7, livro.getId());
+            stmt.setString(1, book.getTitle());
+            stmt.setString(2, book.getAuthor());
+            stmt.setString(3, book.getPublisher());
+            stmt.setString(4, book.getIsbn());
+            stmt.setString(5, book.getGenero() == null ? null : book.getGenero().toString());
+            stmt.setString(6, book.getClassificacaoIndicativa() == null ? null : book.getClassificacaoIndicativa().toString());
+            stmt.setInt(7, book.getId());
 
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            DbConnectionFactory.fecharStmt(stmt);
+            DbConnectionFactory.closeStatement(stmt);
         }
     }
 
@@ -105,31 +103,31 @@ public class LivroLiterarioDaoImpl implements LivroLiterarioDao {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            DbConnectionFactory.fecharStmt(stmt);
+            DbConnectionFactory.closeStatement(stmt);
         }
     }
 
     // Método que busca todos os livros literários do banco de dados
     @Override
-    public ObservableList<Livro> findAll() throws SQLException {
-        ObservableList<Livro> listaLivros = FXCollections.observableArrayList();
+    public ObservableList<Book> findAll() throws SQLException {
+        ObservableList<Book> listaLivros = FXCollections.observableArrayList();
         PreparedStatement stmt;
         ResultSet rs;
         stmt = connection.prepareStatement("SELECT * FROM livros_literarios");
         rs = stmt.executeQuery();
-        Livro livro;
+        Book livro;
         while(rs.next()) {
-            livro = new LivroLiterario(rs.getInt("id"),
+            livro = new LiteraryBook(rs.getInt("id"),
                     rs.getString("titulo"),
                     rs.getString("autor"),
                     rs.getString("editora"),
                     rs.getString("isbn"),
-                    Genero.valueOf(rs.getString("genero")),
-                    ClassificacaoIndicativa.valueOf(rs.getString("classificacao_indicativa")));
+                    Genre.valueOf(rs.getString("genero")),
+                    ParentalRating.valueOf(rs.getString("classificacao_indicativa")));
             listaLivros.add(livro);
         }
-        DbConnectionFactory.fecharStmt(stmt);
-        DbConnectionFactory.fecharResultSet(rs);
+        DbConnectionFactory.closeStatement(stmt);
+        DbConnectionFactory.closeResultSet(rs);
         return listaLivros;
     }
 }

@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="590.0" prefWidth="615.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.ifpi.bibliotecaif.EditarLivroController">
+<AnchorPane prefHeight="590.0" prefWidth="615.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.ifpi.bibliotecaif.EditOrDeleteBookController">
     <children>
         <GridPane layoutX="228.0" layoutY="30.0" prefHeight="513.0" prefWidth="615.0" AnchorPane.bottomAnchor="27.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
             <columnConstraints>
@@ -35,33 +35,33 @@
                 <Group GridPane.rowIndex="1">
                     <children>
                         <Label layoutX="2.0" layoutY="97.0" prefHeight="28.0" prefWidth="51.0" text="Título" />
-                        <TextField fx:id="txtTitulo" layoutX="2.0" layoutY="125.0" maxWidth="250.0" minWidth="106.0" prefHeight="25.0" prefWidth="110.0" />
+                        <TextField fx:id="txtTitle" layoutX="2.0" layoutY="125.0" maxWidth="250.0" minWidth="106.0" prefHeight="25.0" prefWidth="110.0" />
                         <Label layoutX="129.0" layoutY="97.0" prefHeight="28.0" prefWidth="51.0" text="Autor" />
-                        <TextField fx:id="txtAutor" layoutX="129.0" layoutY="125.0" maxWidth="250.0" minWidth="104.0" prefHeight="25.0" prefWidth="110.0" />
+                        <TextField fx:id="txtAuthor" layoutX="129.0" layoutY="125.0" maxWidth="250.0" minWidth="104.0" prefHeight="25.0" prefWidth="110.0" />
                         <Label layoutX="2.0" layoutY="150.0" prefHeight="28.0" prefWidth="51.0" text="Editora" />
                         <Label layoutX="129.0" layoutY="150.0" prefHeight="28.0" prefWidth="51.0" text="ISBN" />
-                        <ComboBox fx:id="cbbGenero" layoutX="119.0" layoutY="285.0" prefHeight="0.0" prefWidth="127.0" promptText="GÊNERO" />
-                        <ComboBox fx:id="cbbClassificacao" layoutX="-1.0" layoutY="240.0" prefHeight="25.0" prefWidth="121.0" promptText="LIVRE" />
+                        <ComboBox fx:id="cbbGenre" layoutX="119.0" layoutY="285.0" prefHeight="0.0" prefWidth="127.0" promptText="GÊNERO" />
+                        <ComboBox fx:id="cbbParentalRating" layoutX="-1.0" layoutY="240.0" prefHeight="25.0" prefWidth="121.0" promptText="LIVRE" />
                         <Label layoutX="2.0" layoutY="212.0" prefHeight="28.0" prefWidth="125.0" text="Classificação indicativa" />
-                  <TextField fx:id="txtEditora" layoutX="2.0" layoutY="178.0" maxWidth="250.0" minWidth="106.0" prefHeight="25.0" prefWidth="110.0" />
+                  <TextField fx:id="txtPublisher" layoutX="2.0" layoutY="178.0" maxWidth="250.0" minWidth="106.0" prefHeight="25.0" prefWidth="110.0" />
                   <TextField fx:id="txtIsbn" layoutX="129.0" layoutY="178.0" maxWidth="250.0" minWidth="106.0" prefHeight="25.0" prefWidth="110.0" />
                   <Label layoutX="2.0" layoutY="39.0" prefHeight="28.0" prefWidth="149.0" text="Livro a ser modificado" />
-                  <ComboBox fx:id="cbbLivrosId" layoutX="-1.0" layoutY="67.0" prefHeight="25.0" prefWidth="249.0" promptText="ID - TITULO" />
-                        <RadioButton fx:id="cbLiterario" layoutX="2.0" layoutY="289.0" mnemonicParsing="false" onAction="#onRadioLiterarioChange" selected="true" text="Literário">
+                  <ComboBox fx:id="cbbBooks" layoutX="-1.0" layoutY="67.0" prefHeight="25.0" prefWidth="249.0" promptText="ID - TITULO" />
+                        <RadioButton fx:id="cbLiterary" layoutX="2.0" layoutY="289.0" mnemonicParsing="false" onAction="#onRadioLiterarySelect" selected="true" text="Literário">
                             <toggleGroup>
-                                <ToggleGroup fx:id="tipo" />
+                                <ToggleGroup fx:id="type" />
                             </toggleGroup>
                         </RadioButton>
-                        <RadioButton fx:id="cbDidatico" layoutX="1.0" layoutY="326.0" mnemonicParsing="false" onAction="#onRadioDidaticoChange" text="Didático" toggleGroup="$tipo" />
-                  <ComboBox fx:id="cbbAssunto" layoutX="119.0" layoutY="322.0" prefHeight="0.0" prefWidth="127.0" promptText="ASSUNTO" />
+                        <RadioButton fx:id="cbDidactic" layoutX="1.0" layoutY="326.0" mnemonicParsing="false" onAction="#onRadioDidacticSelect" text="Didático" toggleGroup="$type" />
+                  <ComboBox fx:id="cbbSubject" layoutX="119.0" layoutY="322.0" prefHeight="0.0" prefWidth="127.0" promptText="ASSUNTO" />
                     </children>
                 </Group>
-                <Button fx:id="atualizarButton" alignment="CENTER" mnemonicParsing="false" onAction="#onAtualizarButtonAction" prefHeight="36.0" prefWidth="127.0" text="Atualizar livro" textAlignment="CENTER" GridPane.rowIndex="2">
+                <Button fx:id="updateButton" alignment="CENTER" mnemonicParsing="false" onAction="#onAtualizarButtonAction" prefHeight="36.0" prefWidth="127.0" text="Atualizar livro" textAlignment="CENTER" GridPane.rowIndex="2">
                     <GridPane.margin>
                         <Insets />
                     </GridPane.margin>
                 </Button>
-            <Button fx:id="deletarButton" alignment="CENTER" mnemonicParsing="false" onAction="#onDeletarButtonAction" prefHeight="36.0" prefWidth="127.0" text="Deletar livro" textAlignment="CENTER" textFill="RED" GridPane.rowIndex="3" />
+            <Button fx:id="deleteButton" alignment="CENTER" mnemonicParsing="false" onAction="#onDeleteButtonAction" prefHeight="36.0" prefWidth="127.0" text="Deletar livro" textAlignment="CENTER" textFill="RED" GridPane.rowIndex="3" />
             </children>
         </GridPane>
     </children>

@@ -1,7 +1,6 @@
 package org.ifpi.bibliotecaif;
 
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -11,11 +10,11 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import org.ifpi.bibliotecaif.model.entities.Livro;
-import org.ifpi.bibliotecaif.model.entities.LivroLiterario;
-import org.ifpi.bibliotecaif.model.entities.enums.ClassificacaoIndicativa;
-import org.ifpi.bibliotecaif.model.entities.enums.Genero;
-import org.ifpi.bibliotecaif.model.services.LivroLiterarioService;
+import org.ifpi.bibliotecaif.model.entities.Book;
+import org.ifpi.bibliotecaif.model.entities.LiteraryBook;
+import org.ifpi.bibliotecaif.model.entities.enums.ParentalRating;
+import org.ifpi.bibliotecaif.model.entities.enums.Genre;
+import org.ifpi.bibliotecaif.model.services.LiteraryBookService;
 import org.ifpi.bibliotecaif.utils.Alerts;
 
 import java.io.IOException;
@@ -23,32 +22,32 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-public class ListarLivrosLiterariosController implements Initializable {
+public class ListLiteraryBooksController implements Initializable {
 
     @FXML
-    private TableView<Livro> tableViewLivro;
+    private TableView<Book> tableViewBook;
 
     @FXML
-    private TableColumn<LivroLiterario, String> tableColumnId;
+    private TableColumn<LiteraryBook, String> tableColumnId;
     @FXML
-    private TableColumn<LivroLiterario, String> tableColumnTitulo;
+    private TableColumn<LiteraryBook, String> tableColumnTitle;
     @FXML
-    private TableColumn<LivroLiterario, String> tableColumnAutor;
+    private TableColumn<LiteraryBook, String> tableColumnAuthor;
     @FXML
-    private TableColumn<LivroLiterario, String> tableColumnEditora;
+    private TableColumn<LiteraryBook, String> tableColumnPublisher;
     @FXML
-    private TableColumn<LivroLiterario, String> tableColumnIsbn;
+    private TableColumn<LiteraryBook, String> tableColumnIsbn;
     @FXML
-    private TableColumn<LivroLiterario, Genero> tableColumnGenero;
+    private TableColumn<LiteraryBook, Genre> tableColumnGenre;
     @FXML
-    private TableColumn<LivroLiterario, ClassificacaoIndicativa> tableColumnClassificacao;
+    private TableColumn<LiteraryBook, ParentalRating> tableColumnParentalRating;
 
     @FXML
-    private Button mudarTipoButton;
+    private Button changeCategoryButton;
 
     @FXML
-    public void onMudarTipoButton() {
-        loadView("LivrosDidaticosLista.fxml");
+    public void onChangeCategoryButtonAction() {
+        loadView("ListDidacticsBook.fxml");
     }
 
     @Override
@@ -62,21 +61,21 @@ public class ListarLivrosLiterariosController implements Initializable {
 
     private void initializeNodes() throws SQLException {
 
-        LivroLiterarioService service = new LivroLiterarioService();
+        LiteraryBookService service = new LiteraryBookService();
 
-        ObservableList<Livro> lista = service.buscarTodos();
+        ObservableList<Book> list = service.findAll();
 
         tableColumnId.setCellValueFactory(new PropertyValueFactory<>("Id"));
-        tableColumnTitulo.setCellValueFactory(new PropertyValueFactory<>("Titulo"));
-        tableColumnAutor.setCellValueFactory(new PropertyValueFactory<>("Autor"));
-        tableColumnEditora.setCellValueFactory(new PropertyValueFactory<>("Editora"));
+        tableColumnTitle.setCellValueFactory(new PropertyValueFactory<>("Title"));
+        tableColumnAuthor.setCellValueFactory(new PropertyValueFactory<>("Author"));
+        tableColumnPublisher.setCellValueFactory(new PropertyValueFactory<>("Publisher"));
         tableColumnIsbn.setCellValueFactory(new PropertyValueFactory<>("Isbn"));
-        tableColumnGenero.setCellValueFactory(new PropertyValueFactory<>("Genero"));
-        tableColumnClassificacao.setCellValueFactory(new PropertyValueFactory<>("ClassificacaoIndicativa"));
+        tableColumnGenre.setCellValueFactory(new PropertyValueFactory<>("Genre"));
+        tableColumnParentalRating.setCellValueFactory(new PropertyValueFactory<>("ParentalRating"));
 
         Stage stage = (Stage) Main.getMainScene().getWindow();
-        tableViewLivro.prefHeightProperty().bind(stage.heightProperty());
-        tableViewLivro.setItems(lista);
+        tableViewBook.prefHeightProperty().bind(stage.heightProperty());
+        tableViewBook.setItems(list);
     }
 
     private synchronized void loadView(String absName) {

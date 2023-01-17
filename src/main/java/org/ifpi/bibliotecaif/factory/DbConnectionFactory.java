@@ -13,9 +13,9 @@ public class DbConnectionFactory {
 
 
     // Método que conecta ao banco de dados
-    public static Connection conectar() throws IOException, SQLException {
+    public static Connection connect() throws IOException {
         if (conn == null) {
-            Properties props = carregarPropriedades();
+            Properties props = loadProperties();
             String url = props.getProperty("dburl");
             try {
                 conn = DriverManager.getConnection(url, props);
@@ -28,7 +28,7 @@ public class DbConnectionFactory {
 
 
     // Método que termina a conexão com o banco de dados
-    public static void fecharConexao() {
+    public static void close() {
         if (conn != null) {
             try {
                 conn.close();
@@ -40,7 +40,7 @@ public class DbConnectionFactory {
 
 
     // Método que encerra a declaração SQL
-    public static void fecharStmt(Statement stmt) throws SQLException {
+    public static void closeStatement(Statement stmt) throws SQLException {
         if (stmt != null) {
             try {
                 stmt.close();
@@ -52,7 +52,7 @@ public class DbConnectionFactory {
 
 
     // Método que encerra o Result Set
-    public static void fecharResultSet(ResultSet rs) throws SQLException {
+    public static void closeResultSet(ResultSet rs) throws SQLException {
         if (rs != null) {
             try {
                 rs.close();
@@ -62,11 +62,11 @@ public class DbConnectionFactory {
         }
     }
 
-    private static Properties carregarPropriedades() throws IOException {
+    private static Properties loadProperties() throws IOException {
         try (FileInputStream fs = new FileInputStream("db.properties")) {
-            Properties propriedades = new Properties();
-            propriedades.load(fs);
-            return propriedades;
+            Properties props = new Properties();
+            props.load(fs);
+            return props;
         } catch (IOException e) {
             throw new IOException("Falha ao localizar o arquivo contendo as propriedades.");
         }
