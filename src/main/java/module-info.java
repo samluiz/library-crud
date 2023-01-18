@@ -5,7 +5,7 @@ module org.ifpi.bibliotecaif {
     requires java.sql;
 
 
-    opens org.ifpi.bibliotecaif to javafx.fxml, javafx.base;
-    opens org.ifpi.bibliotecaif.model.entities to javafx.base;
-    exports org.ifpi.bibliotecaif;
+    opens com.saurs.library to javafx.fxml, javafx.base;
+    opens com.saurs.library.model.entities to javafx.base;
+    exports com.saurs.library;
 }
