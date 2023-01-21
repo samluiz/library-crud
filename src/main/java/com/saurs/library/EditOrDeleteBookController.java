@@ -129,29 +129,16 @@ public class EditOrDeleteBookController implements Initializable {
             DidacticBookService service = new DidacticBookService();
             service.remove(book);
         }
-        txtTitle.setText("");
-        txtAuthor.setText("");
-        txtPublisher.setText("");
-        txtIsbn.setText("");
-        cbbSubject.setDisable(true);
-        cbLiterary.setSelected(true);
-        cbbParentalRating.setValue(null);
-        loadLiteraryBooks();
+        reset();
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
-            loadLiteraryBooks();
+            reset();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        loadParentalRatings();
-        loadGenres();
-        loadSubjects();
-        cbbSubject.setDisable(true);
-        cbLiterary.setSelected(true);
-        cbbParentalRating.setValue(null);
     }
     public void loadGenres() {
         for(Genre g : Genre.values()) {
@@ -221,5 +208,9 @@ public class EditOrDeleteBookController implements Initializable {
         cbLiterary.setSelected(true);
         cbbParentalRating.setValue(ParentalRating.LIVRE);
         loadLiteraryBooks();
+        loadDidacticBooks();
+        loadParentalRatings();
+        loadGenres();
+        loadSubjects();
     }
 }

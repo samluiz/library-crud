@@ -62,7 +62,6 @@ public class ListLiteraryBooksController implements Initializable {
     private void initializeNodes() throws SQLException {
 
         LiteraryBookService service = new LiteraryBookService();
-
         ObservableList<Book> list = service.findAll();
 
         tableColumnId.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -72,7 +71,6 @@ public class ListLiteraryBooksController implements Initializable {
         tableColumnIsbn.setCellValueFactory(new PropertyValueFactory<>("isbn"));
         tableColumnGenre.setCellValueFactory(new PropertyValueFactory<>("genre"));
         tableColumnParentalRating.setCellValueFactory(new PropertyValueFactory<>("parentalRating"));
-
         Stage stage = (Stage) Main.getMainScene().getWindow();
         tableViewBook.prefHeightProperty().bind(stage.heightProperty());
         tableViewBook.setItems(list);

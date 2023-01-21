@@ -59,7 +59,6 @@ public class DidacticBookDaoImpl implements DidacticBookDao {
         }
     }
 
-
     // Método que modifica um item do banco de dados baseado no id
     @Override
     public void update(DidacticBook book) throws SQLException {
@@ -68,10 +67,10 @@ public class DidacticBookDaoImpl implements DidacticBookDao {
             stmt = connection.prepareStatement(
                     "UPDATE livros_literarios " +
                             "SET titulo = IFNULL(NULLIF(?, ''), titulo), " +
-                            "SET autor = IFNULL(NULLIF(?, ''), autor)" +
-                            "SET editora = IFNULL(NULLIF(?, ''), editora)" +
-                            "SET isbn = IFNULL(NULLIF(?, ''), isbn)" +
-                            "SET assunto = IFNULL(NULLIF(?, ''), assunto)" +
+                            "autor = IFNULL(NULLIF(?, ''), autor)" +
+                            "editora = IFNULL(NULLIF(?, ''), editora)" +
+                            "isbn = IFNULL(NULLIF(?, ''), isbn)" +
+                            "assunto = IFNULL(NULLIF(?, ''), assunto)" +
                             "WHERE id = ?");
             stmt.setString(1, book.getTitle());
             stmt.setString(2, book.getAuthor());
